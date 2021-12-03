@@ -149,7 +149,7 @@ Send a `SIGKILL` to the primary member of `ROM` that is at the moment `rome:3332
 
 Example:
 
-    $ kill -9 $(ps aux | grep 'mysqld' | grep 3332 | awk '{print $2}'
+    $ kill -9 $(ps aux | grep 'mysqld' | grep 3332 | awk '{print $2}')
 
 *NOTE*: Verify how the ClusterSet replication channel was automatically re-established to the newly elected primary instance of `ROM` and how Router is sending the RW traffic to it.
 
