@@ -6,7 +6,7 @@ Pre-requisites
 --------------
   - MySQL Server 8.0.27+
   - MySQL Shell 8.0.27+
-  - MySQL Router 8.0.28+
+  - MySQL Router 8.0.27+
 
 MySQL Instances
 ---------------
