@@ -45,7 +45,7 @@ Bootstrap and start the Router
 
 *NOTE*: Check router's log:
 
-    $ tail -f router_rom/log/mysqlrouter.log
+    $ tail -f router_rome/log/mysqlrouter.log
 
 Start RW and RO applications
 ----------------------------
@@ -63,7 +63,7 @@ Verify ClusterSet topology
     mysqlsh-js> cs.status()
     mysqlsh-js> cs.listRouters()
 
-*NOTE*: Notice in the output of listRouters() and in Router's log a warning mentioning that a re-bootstrap must be performed to ensure the ideal configurations are in place.
+*NOTE*: Notice in the output of `listRouters()` and in Router's log a warning mentioning that a re-bootstrap must be performed to ensure the ideal configurations are in place.
 
 **Re-Bootstrap the Router:**
 
@@ -109,7 +109,7 @@ Change ClusterSet Primary Cluster - Switchover
 ----------------------------------------------
     mysqlsh-js> cs.setPrimaryCluster("BRU")
 
-*NOTE*: Verify Router adapting automatically, RW traffic going to brussels:4442 now (the primary instance of the primary Cluster)
+*NOTE*: Verify Router adapting automatically, RW traffic going to `brussels:4442` now (the primary instance of the primary Cluster)
 
 
 Check Routing Policies
@@ -123,14 +123,14 @@ Change Global target_cluster Routing policy
 -------------------------------------------
     mysqlsh-js> cs.setRoutingOption("target_cluster", "ROM")
 
-*NOTE*: Write traffic is now rejected by the Router since the Router's target_cluster is now "ROM" that is a Replica Cluster.
+*NOTE*: Write traffic is now rejected by the Router since the Router's target_cluster is now `ROM` that is a Replica Cluster.
 
 
 **Change the Primary Cluster**
 
     mysqlsh-js> cs.setPrimaryCluster("ROM")
 
-*NOTE*: Router accepts RW traffic now since "ROM" became the Primary Cluster
+*NOTE*: Router accepts RW traffic now since `ROM` became the Primary Cluster
 
 
 **Switch back the global routing policy to follow the primary Cluster**
@@ -149,7 +149,7 @@ Example:
 
     $ kill -9 $(ps aux | grep 'mysqld' | grep 3332 | awk '{print $2}'
 
-*NOTE*: Verify how the ClusterSet replication channel was automatically re-established to the newly elected primary instance of "ROM" and how Router is sending the RW traffic to it.
+*NOTE*: Verify how the ClusterSet replication channel was automatically re-established to the newly elected primary instance of `ROM` and how Router is sending the RW traffic to it.
 
 
 **Kill primary instance of "BRU"**
@@ -159,7 +159,7 @@ Example:
 
     $ kill -9 $(ps aux | grep 'mysqld' | grep 4442 | awk '{print $2}')
 
-*NOTE*: Verify the ClusterSet replication channel was automatically re-established from the newly elected primary of "BRU" to the primary member of "ROM"
+*NOTE*: Verify the ClusterSet replication channel was automatically re-established from the newly elected primary of `BRU` to the primary member of `ROM`
 
 
 **Kill the whole Primary Cluster "ROM"**
