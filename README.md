@@ -2,6 +2,8 @@
 ClusterSet Demo
 ===============
 
+General information and auxiliary diagrams available at: https://www.slideshare.net/miguelgaraujo/disaster-recovery-with-mysql-innodb-clusterset-what-is-it-and-how-do-i-use-it
+
 Pre-requisites
 --------------
   - MySQL Server 8.0.27+
