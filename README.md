@@ -143,7 +143,7 @@ Disasters
 
 **Kill primary instance of "ROM"**
 
-Send a SIGKILL to the primary member of "ROM" that is at the moment "rome:3332".
+Send a `SIGKILL` to the primary member of `ROM` that is at the moment `rome:3332`.
 
 Example:
 
@@ -153,7 +153,7 @@ Example:
 
 
 **Kill primary instance of "BRU"**
-Send a SIGKILL to the primary member of "ROM" that is at the moment "brussels:4442".
+Send a `SIGKILL` to the primary member of `ROM` that is at the moment `brussels:4442`.
 
 Example:
 
@@ -163,7 +163,7 @@ Example:
 
 
 **Kill the whole Primary Cluster "ROM"**
-Send a SIGKILL to the remaining 2 members of "ROM": "rome:3331" and "rome:3333"
+Send a `SIGKILL` to the remaining 2 members of `ROM`: `rome:3331` and `rome:3333`.
 
 Example:
 
@@ -200,7 +200,7 @@ Start all "ROM" instances:
 
     mysqlsh-js> cs.status()
 
-*NOTE*: Verify the Cluster is marked as INVALIDATED in the ClusterSet and must be either removed from it or rejoined
+*NOTE*: Verify the Cluster is marked as `INVALIDATED` in the ClusterSet and must be either removed from it or rejoined
 
 **Rejoin the Cluster back to the ClusterSet**
 
