@@ -6,9 +6,9 @@ General information and auxiliary diagrams available at: https://www.slideshare.
 
 Pre-requisites
 --------------
-  - MySQL Server 8.0.27+
-  - MySQL Shell 8.0.27+
-  - MySQL Router 8.0.27+
+  - MySQL Server 8.0.28+
+  - MySQL Shell 8.0.28+
+  - MySQL Router 8.0.28+
 
 MySQL Instances
 ---------------
@@ -164,20 +164,29 @@ Example:
 *NOTE*: Verify the ClusterSet replication channel was automatically re-established from the newly elected primary of `BRU` to the primary member of `ROM`
 
 
-**Kill the whole Primary Cluster "ROM"**
-Send a `SIGKILL` to the remaining 2 members of `ROM`: `rome:3331` and `rome:3333`.
+**SPLIT-BRAIN**
+
+Use IPTables to simulate a network partition.
 
 Example:
 
-    $ kill -9 $(ps aux | grep 'mysqld' | grep 3331 | awk '{print $2}')
-    $ kill -9 $(ps aux | grep 'mysqld' | grep 3333 | awk '{print $2}')
+    $ sudo iptables -A INPUT -s lisbon -j REJECT;
+    $ sudo iptables -A INPUT -s brussels -j REJECT;
+
+
+Fence Primary Cluster "ROM" from Write Traffic
+----------------------------------------------
+
+    mysqlsh-js> rom.fenceWrites()
 
 
 Force Failover of the Primary Cluster
 -------------------------------------
+
+Perform a forced failover to Brussels:
+
     mysqlsh-js> \c clusteradmin@brussels:4441
     mysqlsh-js> cs = dba.getClusterSet()
-    mysqlsh-js> cs.status()
     mysqlsh-js> cs.forcePrimaryCluster("BRU")
 
 **Verify the status after the failover is successful**
@@ -186,9 +195,39 @@ Force Failover of the Primary Cluster
     mysqlsh-js> bru.status()
     mysqlsh-js> cs.status()
 
+Resolve the network partition and rejoin ROM  back to the ClusterSet
+--------------------------------------------------------------------
 
-Restore "ROM" Cluster and rejoin it back to the ClusterSet
-----------------------------------------------------------
+    $ sudo iptables -F
+
+*NOTE*: Verify the Cluster is marked as `INVALIDATED` in the ClusterSet and must
+be either removed from it or rejoined:
+
+    mysqlsh-js> cs.status()
+
+**Rejoin the Cluster back to the ClusterSet**
+
+    mysqlsh-js> cs.rejoinCluster("ROM")
+    mysqlsh-js> cs.status()
+
+
+Rebooting from Complete Outage a Replica Cluster
+------------------------------------------------
+
+Another possible disaster is a full outage of a Cluster.
+
+**Kill the whole Cluster "ROM"**
+
+Send a `SIGKILL` to all members of `ROM`.
+
+Example:
+
+    $ kill -9 $(ps aux | grep 'mysqld' | grep 3331 | awk '{print $2}'
+
+Verify the Cluster is marked as offline in the ClusterSet:
+
+    mysql-js> cs.status()
+
 Start all "ROM" instances:
 
   - rome:3331
